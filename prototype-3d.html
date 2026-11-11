@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080516">
+  <title>Neon Hoverboard Rush 3D</title>
+  <link rel="stylesheet" href="assets/css/prototype-3d.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="loading-screen">
+      <div class="loading-title">NEON HOVERBOARD RUSH</div>
+      <div class="loading-subtitle">PREPARANDO EL MUNDO 3D...</div>
+      <div class="loading-bar">
+        <div id="loading-progress"></div>
+      </div>
+    </div>
+
+    <div id="game-hud">
+      <div class="hud-top">
+        <div class="hud-brand">NEON <span>RUSH</span></div>
+        <div class="hud-score">⭐ <span id="score">0</span></div>
+      </div>
+
+      <div class="hud-bottom">
+        <div id="game-message">PREPARADO PARA CORRER</div>
+        <button id="start-button">JUGAR</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="assets/js/prototype-3d.js"></script>
+</body>
+</html>
