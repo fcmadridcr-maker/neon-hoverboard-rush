@@ -402,7 +402,7 @@
 
       if (loading) loading.classList.add("hidden");
 
-    } catch (error) {
+        } catch (error) {
       console.error("Error cargando el automóvil 3D:", error);
 
       if (message) {
@@ -410,9 +410,9 @@
       }
 
       if (progress) progress.style.width = "100%";
-    }
-  }
 
+      if (loading) loading.classList.add("hidden");
+    }
   loadSportsCar();
 
 
