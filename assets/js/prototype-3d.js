@@ -784,13 +784,6 @@ function startGame() {
     engine.resize();
   });
 
-  // Pantalla de carga
-  if (progress) progress.style.width = "100%";
-
-  setTimeout(() => {
-    if (loading) loading.classList.add("hidden");
-    if (message) message.textContent = "PREPARADO PARA CORRER";
-  }, 900);
-
-  resetGame();
+ // Inicializar el juego
+resetGame();
 })();
