@@ -411,8 +411,10 @@
 
       if (progress) progress.style.width = "100%";
 
-      if (loading) loading.classList.add("hidden");
+            if (loading) loading.classList.add("hidden");
     }
+  }
+
   loadSportsCar();
 
 
