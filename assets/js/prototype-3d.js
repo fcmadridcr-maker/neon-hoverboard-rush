@@ -79,6 +79,7 @@
       m.emissiveColor = B.Color3.FromHexString(emissive);
     }
     return m;
+
   }
 
   const M = {
@@ -89,31 +90,13 @@
     rockDark: mat("DeepRock", "#171211"),
     lava: mat("MoltenLava", "#ff4b08", "#ff3900", 0.1),
     lavaBright: mat("LavaHighlights", "#ffad24", "#ff6500", 0.1),
-    skin: mat("WarmSkin", "#f4b58d"),
-    skinLight: mat("SkinHighlights", "#ffd0aa"),
-    hair: mat("MahoganyHair", "#54251f"),
-    hairLight: mat("HairHighlights", "#78392d"),
-    cap: mat("RedCap", "#d92924"),
-    capDark: mat("CapShadow", "#8d1719"),
-    shirt: mat("BeigeShirt", "#e9d9bd"),
-    shirtDetail: mat("ShirtDetails", "#c5ae8c"),
-    jeans: mat("BlueJeans", "#315a7d"),
-    jeansDark: mat("JeansSeams", "#1d3e5a"),
-    shoes: mat("RedSneakers", "#d52d2e"),
-    shoeWhite: mat("SneakerSoles", "#f4eee4"),
-    shoeYellow: mat("ShoeDetails", "#ffbd37"),
-    eyeWhite: mat("EyeWhite", "#ffffff"),
-    eye: mat("DarkEyes", "#251b1a"),
-    pupil: mat("Pupils", "#08090d"),
-    mouth: mat("Smile", "#8c3c36"),
-    board: mat("BoardBlack", "#171b25"),
-    boardTop: mat("BoardTop", "#333746"),
     cyan: mat("ElectricBlue", "#20caff", "#078dff"),
     gold: mat("CoinGold", "#ffbf32", "#b86b08"),
     goldLight: mat("CoinRelief", "#ffe38a", "#e6a31a"),
     obstacle: mat("VolcanicObstacle", "#553127"),
     crystal: mat("LavaCrystal", "#ff521d", "#ff2b08")
   };
+
 
   function box(name, size, parent, pos, material, rotation) {
     const mesh = B.MeshBuilder.CreateBox(name, size, scene);
@@ -335,329 +318,103 @@
   }
 
   // --------------------------------------------------
-  // NIÑO SOBRE HOVERBOARD
+
+  // --------------------------------------------------
+  // AUTOMÓVIL DEPORTIVO 3D
   // --------------------------------------------------
 
-  const player = new B.TransformNode("BoyRider", scene);
+  const player = new B.TransformNode("PlayerCar", scene);
   player.position.set(0, 0.2, 0);
 
-  const board = new B.TransformNode("Hoverboard", scene);
-  board.parent = player;
-  board.position.set(0, 0.05, 0.12);
-
-  // Tabla negra con bordes y luces azules
-  box(
-    "HoverboardBase",
-    { width: 1.65, height: 0.19, depth: 0.82 },
-    board,
-    [0, 0, 0],
-    M.board
-  );
-
-  box(
-    "HoverboardTop",
-    { width: 1.48, height: 0.07, depth: 0.68 },
-    board,
-    [0, 0.12, 0],
-    M.boardTop
-  );
-
-  for (const side of [-1, 1]) {
-    box(
-      "BlueBoardLight",
-      { width: 0.12, height: 0.08, depth: 0.56 },
-      board,
-      [side * 0.64, 0.11, 0],
-      M.cyan
-    );
-
-    const thruster = cylinder(
-      "BlueThruster",
-      0.55,
-      0.08,
-      0.32,
-      board,
-      [side * 0.48, -0.32, 0.12],
-      M.cyan
-    );
-    thruster.rotation.x = Math.PI;
-  }
-
-  // Piernas y pantalón azul
-  for (const side of [-1, 1]) {
-    box(
-      "BlueJeansLeg",
-      { width: 0.31, height: 0.68, depth: 0.37 },
-      player,
-      [side * 0.23, 0.62, 0.02],
-      M.jeans
-    );
-
-    box(
-      "JeansCuff",
-      { width: 0.34, height: 0.13, depth: 0.39 },
-      player,
-      [side * 0.23, 0.3, 0.02],
-      M.jeansDark
-    );
-
-    // Zapatillas rojas
-    sphere(
-      "RedSneaker",
-      0.55,
-      player,
-      [side * 0.23, 0.22, -0.16],
-      M.shoes,
-      [0.72, 0.53, 1.15]
-    );
-
-    box(
-      "WhiteSneakerSole",
-      { width: 0.42, height: 0.1, depth: 0.48 },
-      player,
-      [side * 0.23, 0.045, -0.17],
-      M.shoeWhite
-    );
-
-    box(
-      "YellowShoeStripe",
-      { width: 0.25, height: 0.045, depth: 0.04 },
-      player,
-      [side * 0.23, 0.29, -0.36],
-      M.shoeYellow
-    );
-  }
-
-  // Camiseta beige
-  sphere(
-    "BeigeShirtBody",
-    1,
-    player,
-    [0, 1.17, 0.02],
-    M.shirt,
-    [0.78, 0.91, 0.53]
-  );
-
-  box(
-    "ShirtHem",
-    { width: 0.78, height: 0.12, depth: 0.48 },
-    player,
-    [0, 0.77, 0.02],
-    M.shirtDetail
-  );
-
-  // Cuello
-  cylinder(
-    "Neck",
-    0.22,
-    0.26,
-    0.26,
-    player,
-    [0, 1.78, 0],
-    M.skin
-  );
-
-  // Brazos extendidos hacia delante
-  for (const side of [-1, 1]) {
-    const arm = sphere(
-      "ShirtSleeve",
-      0.43,
-      player,
-      [side * 0.56, 1.38, -0.13],
-      M.shirt,
-      [0.72, 0.75, 1.25]
-    );
-    arm.rotation.z = side * -0.3;
-    arm.rotation.x = -0.4;
-
-    const forearm = sphere(
-      "BoyForearm",
-      0.34,
-      player,
-      [side * 0.62, 1.16, -0.42],
-      M.skin,
-      [0.62, 0.7, 1.2]
-    );
-    forearm.rotation.x = -0.65;
-    forearm.rotation.z = side * -0.18;
-
-    sphere(
-      "BoyHand",
-      0.24,
-      player,
-      [side * 0.63, 1.04, -0.57],
-      M.skinLight,
-      [1, 0.8, 0.8]
-    );
-  }
-
-  // Cabeza grande y expresiva
-  const head = new B.TransformNode("BoyHead", scene);
-  head.parent = player;
-  head.position.set(0, 2.13, -0.015);
-
-  sphere(
-    "BoyFace",
-    1,
-    head,
-    [0, 0, -0.02],
-    M.skin,
-    [0.91, 1.03, 0.78]
-  );
-
-  // Mejillas
-  for (const side of [-1, 1]) {
-    sphere(
-      "Cheek",
-      0.2,
-      head,
-      [side * 0.37, -0.12, -0.57],
-      M.skinLight,
-      [1, 0.65, 0.3]
-    );
-  }
-
-  // Cabello marrón caoba, visible bajo la gorra
-  sphere(
-    "MahoganyHairBack",
-    1,
-    head,
-    [0, 0.27, 0.18],
-    M.hair,
-    [0.94, 0.8, 0.76]
-  );
-
-  for (const side of [-1, 1]) {
-    sphere(
-      "HairSide",
-      0.38,
-      head,
-      [side * 0.65, 0.05, 0.02],
-      M.hair,
-      [0.65, 1.2, 0.8]
-    );
-  }
-
-  // Mechones delanteros
-  for (let i = 0; i < 5; i++) {
-    const strand = sphere(
-      "MahoganyHairStrand",
-      0.27,
-      head,
-      [-0.38 + i * 0.19, 0.43 + (i % 2) * 0.07, -0.49],
-      i % 2 ? M.hairLight : M.hair,
-      [0.7, 0.7, 0.8]
-    );
-    strand.rotation.z = (i - 2) * 0.2;
-  }
-
-  // Ojos grandes
-  for (const side of [-1, 1]) {
-    sphere(
-      "EyeWhite",
-      0.24,
-      head,
-      [side * 0.2, 0.12, -0.64],
-      M.eyeWhite,
-      [0.88, 1.12, 0.48]
-    );
-
-    sphere(
-      "EyeIris",
-      0.15,
-      head,
-      [side * 0.2, 0.11, -0.7],
-      M.eye,
-      [0.85, 1, 0.4]
-    );
-
-    sphere(
-      "EyePupil",
-      0.09,
-      head,
-      [side * 0.2, 0.11, -0.74],
-      M.pupil,
-      [0.85, 1, 0.35]
-    );
-
-    sphere(
-      "EyeSparkle",
-      0.045,
-      head,
-      [side * 0.17, 0.16, -0.77],
-      M.eyeWhite
-    );
-  }
-
-  // Cejas y nariz
-  for (const side of [-1, 1]) {
-    const brow = box(
-      "Eyebrow",
-      { width: 0.2, height: 0.045, depth: 0.045 },
-      head,
-      [side * 0.2, 0.32, -0.63],
-      M.hair,
-      [0, 0, side * -0.12]
-    );
-  }
-
-  sphere(
-    "BoyNose",
-    0.13,
-    head,
-    [0, -0.06, -0.72],
-    M.skinLight,
-    [0.9, 0.75, 0.75]
-  );
-
-  // Sonrisa
-  const smile = box(
-    "BoySmile",
-    { width: 0.2, height: 0.035, depth: 0.025 },
-    head,
-    [0, -0.28, -0.69],
-    M.mouth
-  );
-
-  // Gorra roja: corona, visera y detalles
-  sphere(
-    "RedCapCrown",
-    1,
-    head,
-    [0, 0.64, 0.02],
-    M.cap,
-    [0.92, 0.43, 0.86]
-  );
-
-  box(
-    "CapFrontPanel",
-    { width: 0.76, height: 0.22, depth: 0.12 },
-    head,
-    [0, 0.52, -0.58],
-    M.capDark
-  );
-
-  const brim = B.MeshBuilder.CreateCylinder(
-    "CapVisor",
-    { height: 0.09, diameterTop: 0.95, diameterBottom: 1.08, tessellation: 40 },
-    scene
-  );
-  brim.parent = head;
-  brim.scaling.set(1, 0.22, 0.75);
-  brim.position.set(0, 0.43, -0.62);
-  brim.rotation.x = Math.PI / 2;
-  brim.material = M.cap;
-
-  sphere(
-    "CapButton",
-    0.09,
-    head,
-    [0, 0.98, 0.02],
-    M.capDark
-  );
-
-  // Cámara sigue al niño
   camera.lockedTarget = player;
+
+  let carRoot = null;
+  let carLoaded = false;
+
+  async function loadSportsCar() {
+    try {
+      if (progress) progress.style.width = "25%";
+      if (message) message.textContent = "CARGANDO AUTOMÓVIL 3D...";
+
+      const result = await B.SceneLoader.ImportMeshAsync(
+        "",
+        "assets/models/",
+        "1990s-sports-car.glb",
+        scene
+      );
+
+      carRoot = result.meshes[0];
+
+      if (!carRoot) {
+        throw new Error("No se encontró el modelo principal del automóvil");
+      }
+
+      carRoot.parent = player;
+
+      // Medir el modelo original
+      scene.render();
+      carRoot.computeWorldMatrix(true);
+
+      let minX = Infinity;
+      let maxX = -Infinity;
+
+      for (const mesh of result.meshes) {
+        if (!mesh.getBoundingInfo || mesh === carRoot) continue;
+
+        mesh.computeWorldMatrix(true);
+
+        const bounds = mesh.getBoundingInfo().boundingBox;
+        minX = Math.min(minX, bounds.minimumWorld.x);
+        maxX = Math.max(maxX, bounds.maximumWorld.x);
+      }
+
+      // Ajustar el ancho del vehículo a la pista
+      const originalWidth = maxX - minX;
+
+      if (Number.isFinite(originalWidth) && originalWidth > 0) {
+        const scale = 2.8 / originalWidth;
+        carRoot.scaling.setAll(scale);
+      }
+
+      // Colocar el vehículo sobre la superficie
+      scene.render();
+      carRoot.computeWorldMatrix(true);
+
+      let lowestY = Infinity;
+
+      for (const mesh of result.meshes) {
+        if (!mesh.getBoundingInfo || mesh === carRoot) continue;
+
+        mesh.computeWorldMatrix(true);
+
+        const bounds = mesh.getBoundingInfo().boundingBox;
+        lowestY = Math.min(lowestY, bounds.minimumWorld.y);
+      }
+
+      if (Number.isFinite(lowestY)) {
+        carRoot.position.y += player.position.y - lowestY + 0.04;
+      }
+
+      carLoaded = true;
+
+      if (progress) progress.style.width = "100%";
+      if (message) message.textContent = "PREPARADO PARA CORRER";
+
+      if (loading) loading.classList.add("hidden");
+
+    } catch (error) {
+      console.error("Error cargando el automóvil 3D:", error);
+
+      if (message) {
+        message.textContent = "ERROR AL CARGAR EL AUTOMÓVIL";
+      }
+
+      if (progress) progress.style.width = "100%";
+    }
+  }
+
+  loadSportsCar();
+
 
   // --------------------------------------------------
   // MONEDAS DORADAS SÓLIDAS
@@ -831,10 +588,12 @@
 
     updateScore(0);
 
-    player.position.set(0, 0.2, 0);
-    player.rotation.set(0, 0, 0);
-    board.rotation.set(0, 0, 0);
-    board.position.y = 0.05;
+   player.position.set(0, 0.2, 0);
+player.rotation.set(0, 0, 0);
+
+if (carRoot) {
+  carRoot.rotation.set(0, 0, 0);
+}
 
     clearObjects();
 
@@ -843,22 +602,20 @@
     }
   }
 
-  function startGame() {
-    resetGame();
-    running = true;
-    speed = 15;
-
-    if (startButton) startButton.textContent = "REINICIAR";
-    if (message) message.textContent = "¡A TODA VELOCIDAD!";
+function startGame() {
+  if (!carLoaded) {
+    if (message) message.textContent = "CARGANDO AUTOMÓVIL...";
+    return;
   }
 
-  function endGame() {
-    running = false;
-    if (message) {
-      message.textContent = "¡FIN DE LA PARTIDA! PUNTOS: " + score;
-    }
-    if (startButton) startButton.textContent = "VOLVER A JUGAR";
-  }
+  resetGame();
+  running = true;
+  speed = 15;
+
+  if (startButton) startButton.textContent = "REINICIAR";
+  if (message) message.textContent = "¡A TODA VELOCIDAD!";
+}
+
 
   function moveLeft() {
     if (!running) return;
@@ -970,14 +727,7 @@
       ((targetX - player.position.x) * -0.09 - player.rotation.z) *
       Math.min(1, dt * 8);
 
-    const now = performance.now();
-    const bob = Math.sin(now * 0.008) * 0.035;
-
-    head.rotation.z = Math.sin(now * 0.003) * 0.025;
-    board.position.y = 0.05 + bob;
-    board.rotation.z = player.rotation.z * 0.6;
-
-    // Movimiento de objetos y colisiones
+        // Movimiento de objetos y colisiones
     for (const item of objects) {
       if (!item.active) continue;
 
